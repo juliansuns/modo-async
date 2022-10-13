@@ -2,10 +2,10 @@
 
 const http = require('xmlhttprequest').XMLHttpRequest
 
-const  url ="https://pokeapi.co/api/v2/type"
+const  url ="https://jsonplaceholder.typicode.com/todos/"
 //Funcion para conectar a una API publica
 
-function get_data(endpoint, exito, fallo) {
+const get_data = (endpoint, exito, fallo) => {
     let promise = new Promise(function (resolve, rejected) {
         // 1. Crear el objeto de conexion
         const h = new  http()
@@ -14,7 +14,7 @@ function get_data(endpoint, exito, fallo) {
         // 3. Enviar la request definida    
         h.send()
         // 4. Una vez recibida la response, tratar la info
-        h.onload = function() {
+        h.onload = ()  =>{
             if (h.status === 200) {
                 resolve(h.responseText)
             } else {
@@ -26,22 +26,19 @@ function get_data(endpoint, exito, fallo) {
     return promise
 }
 
- function exito(data) {
-    const tipos = (JSON.parse(data).results)
+ const exito = data => {
+    const varios = (JSON.parse(data))
     //Recorrer el arreglo 
-    tipos.forEach(function (element) {
-        console.log(`Tipo: ${element.name}`)
-        console.log(`---------------------`)
+    varios.forEach(element => {
+        console.log(`Titulo: ${element.title}`)
+        console.log(`Completo: ${element.completed}`)
+        console.log(`-------------`)
     });
 }
-function fallo(status) {
-    console.log(status)
-}
+const fallo = status => console.log(status)
 
 
-get_data(url).then(function (data) {
-    exito(data)
-    }).catch(function (error) {
-        fallo(Error(error))
-    })
+get_data(url)
+    .then( data =>  exito(data))
+    .catch(error => fallo(Error(error)))
 

@@ -31,7 +31,7 @@ function get_data(endpoint, exito, fallo) {
     //Recorrer el arreglo 
     tipos.forEach(function (element) {
         console.log(`Tipo: ${element.name}`)
-        console.log(`---------------------`)
+        console.log(`<--------------------->`)
     });
 }
 function fallo(status) {
@@ -39,9 +39,14 @@ function fallo(status) {
 }
 
 
-get_data(url).then(function (data) {
-    exito(data)
-    }).catch(function (error) {
-        fallo(Error(error))
-    })
+const f = async function () {
+    try {
+        let response = await get_data(url)
+        exito(response)   
+    } catch (status) {
+        fallo (status)
+    }
+}
+
+f()
 
